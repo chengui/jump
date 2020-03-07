@@ -4,6 +4,18 @@
 
 `jump` is a command line utility which allow you to ssh any host via jumper.
 
+## Installation
+
+- Git clone the source
+    ```bash
+    $ git clone https://github.com/chengui/jump.git ~/.jump
+    ```
+- Create symbolic link
+    ```bash
+    $ chmod +x $HOME/.jump/jump.sh
+    $ ln -s -f $HOME/.jump/jump.sh /usr/local/bin/jump
+    ```
+
 ## Usage
 
 ```shell
