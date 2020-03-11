@@ -17,15 +17,15 @@ function parse_ini() {
             if ($1 ~ /^\[/) {
                 section=tolower(gensub(/\[(.+)\]/, "\\1", 1, $1))
             } else if ($1 !~ /^$/ && $1 !~ /^;/) {
-                gsub(/^[ \t]+|[ \t]+$/, "", $1); 
+                gsub(/^[ \t]+|[ \t]+$/, "", $1);
                 gsub(/[\[\]]/, "", $1);
-                gsub(/^[ \t]+|[ \t]+$/, "", $2); 
+                gsub(/^[ \t]+|[ \t]+$/, "", $2);
                 if (globals[section][$1] == "")  {
                     globals[section][$1]=$2
                 } else {
                     globals[section][$1]=globals[section][$1]","$2
                 }
-            } 
+            }
         }
         END {
             for (section in globals) {
@@ -85,11 +85,12 @@ function connect() {
             echo "Jumper Not Found"
         fi
     else
+        host=$(echo $2 | sed -nr 's/[^0-9]*(([0-9]+\.){3}[0-9]+).*/\1/p')
         if [[ ${jumper} != "None" ]]; then
             proxy="ProxyCommand ssh -i ${private} -l ${user} -p ${port} ${jumper} -W %h:%p"
-            ssh -i ${private} -l ${user} -p ${port} -o "${proxy}" $2
+            ssh -i ${private} -l ${user} -p ${port} -o "${proxy}" ${host}
         else
-            ssh -i ${private} -l ${user} -p ${port} $2
+            ssh -i ${private} -l ${user} -p ${port} ${host}
         fi
     fi
 }
@@ -135,7 +136,7 @@ function list() {
                         break
                         ;;
                 esac
-            done            
+            done
         else
             echo "Group Not Found: $1"
             exit 3
